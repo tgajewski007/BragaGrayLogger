@@ -12,7 +12,6 @@
 	},
 	"require" : {
 		"graylog2/gelf-php" : "~1",
-		"monolog/monolog" : "~2",
-		"braga/tools" : "~2"
+		"monolog/monolog" : "~2"
 	}
 }
