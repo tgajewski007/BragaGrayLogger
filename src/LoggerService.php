@@ -148,16 +148,16 @@ class LoggerService extends Logger
 	public function exception(\Throwable $exception, int $logLevel = Logger::NOTICE)
 	{
 		$context = [
-						self::CODE => self::$errorCodePrefix . ":" . $exception->getCode(),
+						self::CODE => Factory::$errorCodePrefix . ":" . $exception->getCode(),
 						self::TRACE => $exception->getTraceAsString() ];
 		$this->decorateContext($context);
 		self::log($logLevel, $exception->getMessage(), $context);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
-	 * @param context
+	 * @param array $context
 	 */
-	private function decorateContext($context)
+	private function decorateContext(array &$context)
 	{
 		$context = array_merge([
 						self::LOG_ID => $this->getUniqRequestGuid() ], $context);
