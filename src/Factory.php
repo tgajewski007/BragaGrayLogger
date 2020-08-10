@@ -13,12 +13,32 @@ class Factory
 {
 
 	// -----------------------------------------------------------------------------------------------------------------
+	public static $errorCodePrefix = "BRG";
+	private static $gelfPort = TcpTransport::DEFAULT_HOST;
+	private static $gelfHost = null;
+	private static $logLevel = Logger::NOTICE;
+	private static $fileLogPath;
+	public static $userNameContex;
+	public static $uniqUserId;
+	public static $sessionId;
+	// -----------------------------------------------------------------------------------------------------------------
 	public static function setStartupConfig(GrayLoggerConfig $config)
 	{
 		self::$errorCodePrefix = $config->getErrorCodePrefix();
 		self::$gelfHost = $config->getGelfHost();
 		self::$gelfPort = $config->getGelfPort();
 		self::$logLevel = $config->getLogLevel();
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	public static function setUserNameContext($userName, $uniqUserId = null)
+	{
+		self::$userNameContex = $userName;
+		self::$uniqUserId = $uniqUserId;
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	public static function setSessionId($sessionId)
+	{
+		self::$sessionId = $sessionId;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	// True Singleton privatization
@@ -34,11 +54,6 @@ class Factory
 	{
 	}
 	// -----------------------------------------------------------------------------------------------------------------
-	public static $errorCodePrefix = "BRG";
-	private static $gelfPort = TcpTransport::DEFAULT_HOST;
-	private static $gelfHost = null;
-	private static $logLevel = Logger::NOTICE;
-	// -----------------------------------------------------------------------------------------------------------------
 	/** @var LoggerService[] */
 	private static $instances = array();
 	// -----------------------------------------------------------------------------------------------------------------
@@ -46,38 +61,17 @@ class Factory
 	{
 		if(!array_key_exists($name, self::$instances))
 		{
-			$logger = new LoggerService($name, [
-							new FingersCrossedHandler(new GelfHandler(new Publisher(new TcpTransport(self::$gelfHost, self::$gelfPort))), null, 0, true, true, self::$logLevel),
-							new FingersCrossedHandler(new StreamHandler(sprintf(LOGS_PATH_STRING, $name . ".log")), null, 0, true, true, self::$logLevel) ]);
-			$logger->uniqueLogId = self::get();
+			$logHandlers = array();
+			$logHandlers[] = new FingersCrossedHandler(new GelfHandler(new Publisher(new TcpTransport(self::$gelfHost, self::$gelfPort))), null, 0, true, true, self::$logLevel);
+			if(!empty(self::$fileLogPath))
+			{
+				$logHandlers[] = new FingersCrossedHandler(new StreamHandler(sprintf(self::$fileLogPath, mb_strtolower($name) . "." . date("Y-m-d") . ".log")), null, 0, true, true, self::$logLevel);
+			}
+
+			$logger = new LoggerService($name, $logHandlers);
 			self::$instances[$name] = $logger;
 		}
 		return self::$instances[$name];
-	}
-	// -----------------------------------------------------------------------------------------------------------------
-	public static function setGUID(string $name, string $guid)
-	{
-		$logger = self::getInstance($name);
-		$logger->uniqueLogId = $guid;
-	}
-	// -----------------------------------------------------------------------------------------------------------------
-	static function get()
-	{
-		return strtoupper(sprintf('%04x%04x%04x%04x%04x%04x%04x%04x',
-				// 32 bits for "time_low"
-				mt_rand(0, 0xffff), mt_rand(0, 0xffff),
-				// 16 bits for "time_mid"
-				mt_rand(0, 0xffff),
-				// 16 bits for "time_hi_and_version",
-				// four most significant bits holds version number 4
-				mt_rand(0, 0x0fff) | 0x4000,
-				// 16 bits, 8 bits for "clk_seq_hi_res",
-				// 8 bits for "clk_seq_low",
-				// two most significant bits holds zero and one for
-				// variant DCE1.1
-				mt_rand(0, 0x3fff) | 0x8000,
-				// 48 bits for "node"
-				mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }

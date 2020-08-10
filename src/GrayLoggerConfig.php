@@ -9,18 +9,21 @@ class GrayLoggerConfig
 {
 
 	// -----------------------------------------------------------------------------------------------------------------
-	function __construct($errorCodePrefix, $gelfHost, $gelfPort = TcpTransport::DEFAULT_PORT, $logLevel = Logger::NOTICE)
+	protected $errorCodePrefix;
+	protected $gelfPort;
+	protected $gelfHost;
+	protected $logLevel;
+	protected $fileLogPath;
+
+	// -----------------------------------------------------------------------------------------------------------------
+	function __construct($errorCodePrefix, $gelfHost, $gelfPort = TcpTransport::DEFAULT_PORT, $logLevel = Logger::NOTICE, $fileLogPath = null)
 	{
 		$this->errorCodePrefix = $errorCodePrefix;
 		$this->gelfHost = $gelfHost;
 		$this->gelfPort = $gelfPort;
 		$this->logLevel = $logLevel;
+		$this->fileLogPath = $fileLogPath;
 	}
-	// -----------------------------------------------------------------------------------------------------------------
-	protected $errorCodePrefix;
-	protected $gelfPort;
-	protected $gelfHost;
-	protected $logLevel;
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @return mixed
@@ -52,6 +55,14 @@ class GrayLoggerConfig
 	public function getLogLevel()
 	{
 		return $this->logLevel;
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @return string
+	 */
+	public function getFileLogPath()
+	{
+		return $this->fileLogPath;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }
