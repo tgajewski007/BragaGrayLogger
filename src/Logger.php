@@ -52,13 +52,7 @@ class Logger
 	 */
 	public function trace(string $message, \Throwable $throwable = null)
 	{
-		$context = array();
-		if(!empty($throwable))
-		{
-			$context[LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
-			$context[LoggerService::TRACE] = $throwable->getTraceAsString();
-		}
-		$this->logger->debug($message, $context);
+		$this->logger->debug($message, $this->getContextFromException($throwable));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -67,13 +61,7 @@ class Logger
 	 */
 	public function debug(string $message, \Throwable $throwable = null)
 	{
-		$context = array();
-		if(!empty($throwable))
-		{
-			$context[LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
-			$context[LoggerService::TRACE] = $throwable->getTraceAsString();
-		}
-		$this->logger->debug($message, $context);
+		$this->logger->debug($message, $this->getContextFromException($throwable));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -82,13 +70,7 @@ class Logger
 	 */
 	public function info(string $message, \Throwable $throwable = null)
 	{
-		$context = array();
-		if(!empty($throwable))
-		{
-			$context[LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
-			$context[LoggerService::TRACE] = $throwable->getTraceAsString();
-		}
-		$this->logger->info($message, $context);
+		$this->logger->info($message, $this->getContextFromException($throwable));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -97,13 +79,7 @@ class Logger
 	 */
 	public function warn(string $message, \Throwable $throwable = null)
 	{
-		$context = array();
-		if(!empty($throwable))
-		{
-			$context[LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
-			$context[LoggerService::TRACE] = $throwable->getTraceAsString();
-		}
-		$this->logger->warning($message, $context);
+		$this->logger->warning($message, $this->getContextFromException($throwable));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -112,13 +88,7 @@ class Logger
 	 */
 	public function error(string $message, \Throwable $throwable = null)
 	{
-		$context = array();
-		if(!empty($throwable))
-		{
-			$context[LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
-			$context[LoggerService::TRACE] = $throwable->getTraceAsString();
-		}
-		$this->logger->error($message, $context);
+		$this->logger->error($message, $this->getContextFromException($throwable));
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -127,13 +97,22 @@ class Logger
 	 */
 	public function fatal(string $message, \Throwable $throwable = null)
 	{
+		$this->logger->critical($message, $this->getContextFromException($throwable));
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	/**
+	 * @param \Throwable $throwable
+	 * @return string[]|NULL[]
+	 */
+	private function getContextFromException(\Throwable $throwable)
+	{
 		$context = array();
 		if(!empty($throwable))
 		{
 			$context[LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
 			$context[LoggerService::TRACE] = $throwable->getTraceAsString();
 		}
-		$this->logger->critical($message, $context);
+		return $context;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }
