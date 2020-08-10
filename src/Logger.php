@@ -1,4 +1,6 @@
 <?php
+use braga\graylogger\LoggerService;
+
 /**
  * @author tgaje
  * @deprecated
@@ -53,8 +55,8 @@ class Logger
 		$context = array();
 		if(!empty($throwable))
 		{
-			$context[self::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
-			$context[self::TRACE] = $throwable->getTraceAsString();
+			$context[LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
+			$context[LoggerService::TRACE] = $throwable->getTraceAsString();
 		}
 		$this->logger->debug($message, $context);
 	}
@@ -68,8 +70,8 @@ class Logger
 		$context = array();
 		if(!empty($throwable))
 		{
-			$context[self::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
-			$context[self::TRACE] = $throwable->getTraceAsString();
+			$context[LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
+			$context[LoggerService::TRACE] = $throwable->getTraceAsString();
 		}
 		$this->logger->debug($message, $context);
 	}
@@ -83,8 +85,8 @@ class Logger
 		$context = array();
 		if(!empty($throwable))
 		{
-			$context[self::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
-			$context[self::TRACE] = $throwable->getTraceAsString();
+			$context[LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
+			$context[LoggerService::TRACE] = $throwable->getTraceAsString();
 		}
 		$this->logger->info($message, $context);
 	}
@@ -98,8 +100,8 @@ class Logger
 		$context = array();
 		if(!empty($throwable))
 		{
-			$context[self::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
-			$context[self::TRACE] = $throwable->getTraceAsString();
+			$context[LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
+			$context[LoggerService::TRACE] = $throwable->getTraceAsString();
 		}
 		$this->logger->warning($message, $context);
 	}
@@ -113,8 +115,8 @@ class Logger
 		$context = array();
 		if(!empty($throwable))
 		{
-			$context[self::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
-			$context[self::TRACE] = $throwable->getTraceAsString();
+			$context[LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
+			$context[LoggerService::TRACE] = $throwable->getTraceAsString();
 		}
 		$this->logger->error($message, $context);
 	}
@@ -128,8 +130,8 @@ class Logger
 		$context = array();
 		if(!empty($throwable))
 		{
-			$context[self::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
-			$context[self::TRACE] = $throwable->getTraceAsString();
+			$context[LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
+			$context[LoggerService::TRACE] = $throwable->getTraceAsString();
 		}
 		$this->logger->critical($message, $context);
 	}
