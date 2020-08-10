@@ -23,8 +23,7 @@ class LoggerService extends Logger
 	public function emergency($message, array $context = []): void
 	{
 		$this->decorateContext($context);
-
-		$this->emergency($message, $context);
+		parent::emergency($message, $context);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -39,8 +38,7 @@ class LoggerService extends Logger
 	public function alert($message, array $context = []): void
 	{
 		$this->decorateContext($context);
-
-		$this->alert($message, $context);
+		parent::alert($message, $context);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -54,8 +52,7 @@ class LoggerService extends Logger
 	public function critical($message, array $context = []): void
 	{
 		$this->decorateContext($context);
-
-		$this->critical($message, $context);
+		parent::critical($message, $context);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -69,8 +66,7 @@ class LoggerService extends Logger
 	public function error($message, array $context = []): void
 	{
 		$this->decorateContext($context);
-
-		$this->error($message, $context);
+		parent::error($message, $context);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -85,8 +81,7 @@ class LoggerService extends Logger
 	public function warning($message, array $context = []): void
 	{
 		$this->decorateContext($context);
-
-		$this->warning($message, $context);
+		parent::warning($message, $context);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -99,8 +94,7 @@ class LoggerService extends Logger
 	public function notice($message, array $context = []): void
 	{
 		$this->decorateContext($context);
-
-		$this->notice($message, $context);
+		parent::notice($message, $context);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -114,8 +108,7 @@ class LoggerService extends Logger
 	public function info($message, array $context = []): void
 	{
 		$this->decorateContext($context);
-
-		$this->info($message, $context);
+		parent::info($message, $context);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -128,8 +121,7 @@ class LoggerService extends Logger
 	public function debug($message, array $context = []): void
 	{
 		$this->decorateContext($context);
-
-		$this->debug($message, $context);
+		parent::debug($message, $context);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
@@ -143,8 +135,7 @@ class LoggerService extends Logger
 	public function log($level, $message, array $context = []): void
 	{
 		$this->decorateContext($context);
-
-		$this->log($level, $message, $context);
+		parent::log($level, $message, $context);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
