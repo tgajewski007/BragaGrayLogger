@@ -1,5 +1,4 @@
 <?php
-use braga\graylogger\LoggerService;
 
 /**
  * @author tgaje
@@ -104,13 +103,13 @@ class Logger
 	 * @param \Throwable $throwable
 	 * @return string[]|NULL[]
 	 */
-	private function getContextFromException(\Throwable $throwable)
+	private function getContextFromException(\Throwable $throwable = null)
 	{
 		$context = array();
 		if(!empty($throwable))
 		{
-			$context[LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
-			$context[LoggerService::TRACE] = $throwable->getTraceAsString();
+			$context[\braga\graylogger\LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
+			$context[\braga\graylogger\LoggerService::TRACE] = $throwable->getTraceAsString();
 		}
 		return $context;
 	}
