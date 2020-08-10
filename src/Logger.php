@@ -31,7 +31,7 @@ class Logger
 	// -----------------------------------------------------------------------------------------------------------------
 	/**
 	 * @param string $name
-	 * @return \braga\graylogger\LoggerService
+	 * @return Logger
 	 */
 	public static function getLogger($name)
 	{
