@@ -7,7 +7,7 @@
 			"braga\\graylogger\\" : "src"
 		},
 		"files" : [
-			"Logger.php"
+			"src/Logger.php"
 		]
 	},
 	"require" : {
