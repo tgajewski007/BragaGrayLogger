@@ -14,7 +14,7 @@ class Factory
 
 	// -----------------------------------------------------------------------------------------------------------------
 	public static $errorCodePrefix = "BRG";
-	private static $gelfPort = TcpTransport::DEFAULT_HOST;
+	private static $gelfPort = TcpTransport::DEFAULT_PORT;
 	private static $gelfHost = null;
 	private static $logLevel = Logger::NOTICE;
 	private static $fileLogPath;
