@@ -13,6 +13,7 @@ class LoggerService extends Logger
 	const USER_ID = "userID";
 	const LOGIN = "login";
 	const SESSION_ID = "sessionID";
+	const IP = "IP";
 	// -----------------------------------------------------------------------------------------------------------------
 	private static $systemReqestId;
 	// -----------------------------------------------------------------------------------------------------------------
@@ -161,6 +162,8 @@ class LoggerService extends Logger
 	{
 		$context = array_merge([
 						self::LOG_ID => $this->getUniqRequestGuid() ], $context);
+		$context = array_merge([
+						self::IP => $this->getRemoteIp() ], $context);
 		if(!empty(Factory::$uniqUserId))
 		{
 			$context = array_merge([
@@ -199,6 +202,17 @@ class LoggerService extends Logger
 					mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)));
 		}
 		return self::$systemReqestId;
+	}
+	// =============================================================================
+	function getRemoteIp()
+	{
+		$ip = isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : '127.0.0.1';
+		if(isset($_SERVER["HTTP_X_FORWARDED_FOR"]))
+		{
+			$tmp = explode(",", $_SERVER["HTTP_X_FORWARDED_FOR"]);
+			$ip = trim(current($tmp));
+		}
+		return $ip;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }
