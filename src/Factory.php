@@ -1,14 +1,11 @@
 <?php
-
 namespace braga\graylogger;
-
 use Gelf\Publisher;
 use Gelf\Transport\TcpTransport;
 use Monolog\Logger;
 use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Handler\GelfHandler;
 use Monolog\Handler\StreamHandler;
-
 class Factory
 {
 
@@ -28,6 +25,7 @@ class Factory
 		self::$gelfHost = $config->getGelfHost();
 		self::$gelfPort = $config->getGelfPort();
 		self::$logLevel = $config->getLogLevel();
+		self::$fileLogPath = $config->getFileLogPath();
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	public static function setUserNameContext($userName, $uniqUserId = null)
@@ -62,7 +60,10 @@ class Factory
 		if(!array_key_exists($name, self::$instances))
 		{
 			$logHandlers = array();
-			$logHandlers[] = new FingersCrossedHandler(new GelfHandler(new Publisher(new TcpTransport(self::$gelfHost, self::$gelfPort))), null, 0, true, true, self::$logLevel);
+			if(!empty(self::$gelfHost))
+			{
+				$logHandlers[] = new FingersCrossedHandler(new GelfHandler(new Publisher(new TcpTransport(self::$gelfHost, self::$gelfPort))), null, 0, true, true, self::$logLevel);
+			}
 			if(!empty(self::$fileLogPath))
 			{
 				$logHandlers[] = new FingersCrossedHandler(new StreamHandler(sprintf(self::$fileLogPath, mb_strtolower($name) . "." . date("Y-m-d") . ".log")), null, 0, true, true, self::$logLevel);
