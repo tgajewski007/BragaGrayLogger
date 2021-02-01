@@ -66,7 +66,7 @@ class Factory
 			}
 			if(!empty(self::$fileLogPath))
 			{
-				$logHandlers[] = new FingersCrossedHandler(new StreamHandler(sprintf(self::$fileLogPath, mb_strtolower($name) . "." . date("Y-m-d") . ".log")), null, 0, true, true, self::$logLevel);
+				$logHandlers[] = new FingersCrossedHandler(new StreamHandler(sprintf(self::$fileLogPath, mb_strtolower($name), date("Y-m-d") . ".log")), null, 0, true, true, self::$logLevel);
 			}
 
 			$logger = new LoggerService($name, $logHandlers);
