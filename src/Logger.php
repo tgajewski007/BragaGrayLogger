@@ -110,6 +110,8 @@ class Logger
 		{
 			$context[\braga\graylogger\LoggerService::CODE] = \braga\graylogger\Factory::$errorCodePrefix . ":" . $throwable->getCode();
 			$context[\braga\graylogger\LoggerService::TRACE] = $throwable->getTraceAsString();
+			$context[\braga\graylogger\LoggerService::CODE_LINE] = $throwable->getLine();
+			$context[\braga\graylogger\LoggerService::FILE] = $throwable->getFile();
 		}
 		return $context;
 	}

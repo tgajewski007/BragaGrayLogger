@@ -1,9 +1,6 @@
 <?php
-
 namespace braga\graylogger;
-
 use Monolog\Logger;
-
 class LoggerService extends Logger
 {
 	// -----------------------------------------------------------------------------------------------------------------
@@ -14,6 +11,8 @@ class LoggerService extends Logger
 	const LOGIN = "login";
 	const SESSION_ID = "sessionID";
 	const IP = "IP";
+	const CODE_LINE = "codeLine";
+	const FILE = "file";
 	// -----------------------------------------------------------------------------------------------------------------
 	private static $systemReqestId;
 	// -----------------------------------------------------------------------------------------------------------------
@@ -150,7 +149,9 @@ class LoggerService extends Logger
 	{
 		$context = [
 						self::CODE => Factory::$errorCodePrefix . ":" . $exception->getCode(),
-						self::TRACE => $exception->getTraceAsString() ];
+						self::TRACE => $exception->getTraceAsString(),
+						self::CODE_LINE => $exception->getLine(),
+						self::FILE => $exception->getFile() ];
 		$this->decorateContext($context);
 		self::log($logLevel, $exception->getMessage(), $context);
 	}
