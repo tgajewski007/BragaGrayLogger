@@ -28,10 +28,11 @@ class Factory
 		self::$fileLogPath = $config->getFileLogPath();
 	}
 	// -----------------------------------------------------------------------------------------------------------------
-	public static function setUserNameContext($userName, $uniqUserId = null)
+	public static function setUserNameContext($userName, $uniqUserId = null, $sessionId = null)
 	{
 		self::$userNameContex = $userName;
 		self::$uniqUserId = $uniqUserId;
+		self::$sessionId = $sessionId;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	public static function setSessionId($sessionId)
