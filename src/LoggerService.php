@@ -180,6 +180,22 @@ class LoggerService extends Logger
 			$context = array_merge([
 							self::SESSION_ID => Factory::$sessionId ], $context);
 		}
+		$this->cleanup($context);
+	}
+	// -----------------------------------------------------------------------------------------------------------------
+	private function cleanup($context)
+	{
+		foreach($context as $key => $value)
+		{
+			if(is_array($value))
+			{
+				$this->cleanup($value);
+			}
+			else
+			{
+				$context[$key] = mb_substr($value, 0, 32766);
+			}
+		}
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	protected function getUniqRequestGuid()
