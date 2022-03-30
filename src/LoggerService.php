@@ -193,7 +193,14 @@ class LoggerService extends Logger
 			}
 			else
 			{
-				$context[$key] = mb_substr($value, 0, 32766);
+				if(is_object($value))
+				{
+					$context[$key] = mb_substr(json_encode($value, JSON_PRETTY_PRINT), 0, 32766);
+				}
+				else
+				{
+					$context[$key] = mb_substr($value, 0, 32766);
+				}
 			}
 		}
 	}
