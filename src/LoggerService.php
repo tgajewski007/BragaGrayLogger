@@ -1,5 +1,6 @@
 <?php
 namespace braga\graylogger;
+use Monolog\Level;
 use Monolog\Logger;
 class LoggerService extends Logger
 {
@@ -145,13 +146,13 @@ class LoggerService extends Logger
 	 * @param int $logLevel
 	 * @return void
 	 */
-	public function exception(\Throwable $exception, int $logLevel = Logger::NOTICE)
+	public function exception(\Throwable $exception, Level $logLevel = Level::Critical)
 	{
 		$context = [
-						self::CODE => Factory::$errorCodePrefix . ":" . $exception->getCode(),
-						self::TRACE => $exception->getTraceAsString(),
-						self::CODE_LINE => $exception->getLine(),
-						self::FILE => $exception->getFile() ];
+			self::CODE => Factory::$errorCodePrefix . ":" . $exception->getCode(),
+			self::TRACE => $exception->getTraceAsString(),
+			self::CODE_LINE => $exception->getLine(),
+			self::FILE => $exception->getFile()];
 		$this->decorateContext($context);
 		self::log($logLevel, $exception->getMessage(), $context);
 	}
@@ -162,23 +163,23 @@ class LoggerService extends Logger
 	private function decorateContext(array &$context)
 	{
 		$context = array_merge([
-						self::LOG_ID => $this->getUniqRequestGuid() ], $context);
+			self::LOG_ID => $this->getUniqRequestGuid()], $context);
 		$context = array_merge([
-						self::IP => $this->getRemoteIp() ], $context);
+			self::IP => $this->getRemoteIp()], $context);
 		if(!empty(Factory::$uniqUserId))
 		{
 			$context = array_merge([
-							self::USER_ID => Factory::$uniqUserId ], $context);
+				self::USER_ID => Factory::$uniqUserId], $context);
 		}
 		if(!empty(Factory::$userNameContex))
 		{
 			$context = array_merge([
-							self::LOGIN => Factory::$userNameContex ], $context);
+				self::LOGIN => Factory::$userNameContex], $context);
 		}
 		if(!empty(Factory::$sessionId))
 		{
 			$context = array_merge([
-							self::SESSION_ID => Factory::$sessionId ], $context);
+				self::SESSION_ID => Factory::$sessionId], $context);
 		}
 		$this->cleanup($context);
 	}
@@ -207,20 +208,20 @@ class LoggerService extends Logger
 		if(empty(self::$systemReqestId))
 		{
 			self::$systemReqestId = strtoupper(sprintf('%04x%04x%04x%04x%04x%04x%04x%04x',
-					// 32 bits for "time_low"
-					mt_rand(0, 0xffff), mt_rand(0, 0xffff),
-					// 16 bits for "time_mid"
-					mt_rand(0, 0xffff),
-					// 16 bits for "time_hi_and_version",
-					// four most significant bits holds version number 4
-					mt_rand(0, 0x0fff) | 0x4000,
-					// 16 bits, 8 bits for "clk_seq_hi_res",
-					// 8 bits for "clk_seq_low",
-					// two most significant bits holds zero and one for
-					// variant DCE1.1
-					mt_rand(0, 0x3fff) | 0x8000,
-					// 48 bits for "node"
-					mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)));
+				// 32 bits for "time_low"
+				mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+				// 16 bits for "time_mid"
+				mt_rand(0, 0xffff),
+				// 16 bits for "time_hi_and_version",
+				// four most significant bits holds version number 4
+				mt_rand(0, 0x0fff) | 0x4000,
+				// 16 bits, 8 bits for "clk_seq_hi_res",
+				// 8 bits for "clk_seq_low",
+				// two most significant bits holds zero and one for
+				// variant DCE1.1
+				mt_rand(0, 0x3fff) | 0x8000,
+				// 48 bits for "node"
+				mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)));
 		}
 		return self::$systemReqestId;
 	}

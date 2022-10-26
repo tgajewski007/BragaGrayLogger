@@ -2,6 +2,7 @@
 
 namespace braga\graylogger;
 
+use Monolog\Level;
 use Monolog\Logger;
 
 class BaseLogger
@@ -90,7 +91,7 @@ class BaseLogger
 	 * @param \Throwable $exception
 	 * @param int $logLevel
 	 */
-	public static function exception(\Throwable $exception, int $logLevel = Logger::NOTICE)
+	public static function exception(\Throwable $exception, Level $logLevel = Level::Critical)
 	{
 		Factory::getInstance(static::NAME)->exception($exception, $logLevel);
 	}
