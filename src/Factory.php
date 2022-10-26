@@ -2,6 +2,7 @@
 namespace braga\graylogger;
 use Gelf\Publisher;
 use Gelf\Transport\TcpTransport;
+use Monolog\Level;
 use Monolog\Logger;
 use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Handler\GelfHandler;
@@ -12,7 +13,7 @@ class Factory
 	public static string $errorCodePrefix = "BRG";
 	private static int $gelfPort = TcpTransport::DEFAULT_PORT;
 	private static ?string $gelfHost = null;
-	private static int $logLevel = Logger::NOTICE;
+	private static Level $logLevel = Level::Notice;
 	private static ?string $fileLogPath;
 	public static ?string $userNameContex;
 	public static ?string $uniqUserId;

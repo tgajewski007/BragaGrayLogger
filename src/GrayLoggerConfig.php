@@ -1,6 +1,7 @@
 <?php
 namespace braga\graylogger;
 use Gelf\Transport\TcpTransport;
+use Monolog\Level;
 use Monolog\Logger;
 
 class GrayLoggerConfig
@@ -12,7 +13,7 @@ class GrayLoggerConfig
 	protected $logLevel;
 	protected $fileLogPath;
 	// -----------------------------------------------------------------------------------------------------------------
-	function __construct($errorCodePrefix, $gelfHost, $gelfPort = TcpTransport::DEFAULT_PORT, $logLevel = Logger::NOTICE, $fileLogPath = null)
+	function __construct($errorCodePrefix, $gelfHost, $gelfPort = TcpTransport::DEFAULT_PORT, $logLevel = Level::Notice, $fileLogPath = null)
 	{
 		$this->errorCodePrefix = $errorCodePrefix;
 		$this->gelfHost = $gelfHost;
