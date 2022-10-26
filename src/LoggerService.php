@@ -146,13 +146,14 @@ class LoggerService extends Logger
 	 * @param int $logLevel
 	 * @return void
 	 */
-	public function exception(\Throwable $exception, Level $logLevel = Level::Critical)
+	public function exception(\Throwable $exception, Level $logLevel = Level::Critical, array $context = array())
 	{
-		$context = [
+		$context = array_merge([
 			self::CODE => Factory::$errorCodePrefix . ":" . $exception->getCode(),
 			self::TRACE => $exception->getTraceAsString(),
 			self::CODE_LINE => $exception->getLine(),
-			self::FILE => $exception->getFile()];
+			self::FILE => $exception->getFile()], $context);
+
 		$this->decorateContext($context);
 		self::log($logLevel, $exception->getMessage(), $context);
 	}

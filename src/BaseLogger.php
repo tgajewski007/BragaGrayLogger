@@ -91,9 +91,9 @@ class BaseLogger
 	 * @param \Throwable $exception
 	 * @param int $logLevel
 	 */
-	public static function exception(\Throwable $exception, Level $logLevel = Level::Critical)
+	public static function exception(\Throwable $exception, Level $logLevel = Level::Critical, array $context = array())
 	{
-		Factory::getInstance(static::NAME)->exception($exception, $logLevel);
+		Factory::getInstance(static::NAME)->exception($exception, $logLevel, $context);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 }
