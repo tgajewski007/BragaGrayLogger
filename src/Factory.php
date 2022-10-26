@@ -8,16 +8,15 @@ use Monolog\Handler\GelfHandler;
 use Monolog\Handler\StreamHandler;
 class Factory
 {
-
 	// -----------------------------------------------------------------------------------------------------------------
-	public static $errorCodePrefix = "BRG";
-	private static $gelfPort = TcpTransport::DEFAULT_PORT;
-	private static $gelfHost = null;
-	private static $logLevel = Logger::NOTICE;
-	private static $fileLogPath;
-	public static $userNameContex;
-	public static $uniqUserId;
-	public static $sessionId;
+	public static string $errorCodePrefix = "BRG";
+	private static int $gelfPort = TcpTransport::DEFAULT_PORT;
+	private static ?string $gelfHost = null;
+	private static int $logLevel = Logger::NOTICE;
+	private static ?string $fileLogPath;
+	public static ?string $userNameContex;
+	public static ?string $uniqUserId;
+	public static ?string $sessionId;
 	// -----------------------------------------------------------------------------------------------------------------
 	public static function setStartupConfig(GrayLoggerConfig $config)
 	{
@@ -35,7 +34,7 @@ class Factory
 		self::$sessionId = $sessionId;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
-	public static function setSessionId($sessionId)
+	public static function setSessionId(string $sessionId)
 	{
 		self::$sessionId = $sessionId;
 	}
@@ -46,10 +45,6 @@ class Factory
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	private function __clone()
-	{
-	}
-	// -----------------------------------------------------------------------------------------------------------------
-	private function __wakeup()
 	{
 	}
 	// -----------------------------------------------------------------------------------------------------------------

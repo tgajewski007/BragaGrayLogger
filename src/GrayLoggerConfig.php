@@ -1,10 +1,10 @@
 <?php
 namespace braga\graylogger;
 use Gelf\Transport\TcpTransport;
-use Gelf\Logger;
+use Monolog\Logger;
+
 class GrayLoggerConfig
 {
-
 	// -----------------------------------------------------------------------------------------------------------------
 	protected $errorCodePrefix;
 	protected $gelfPort;
