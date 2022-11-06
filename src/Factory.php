@@ -2,6 +2,7 @@
 namespace braga\graylogger;
 use Gelf\Publisher;
 use Gelf\Transport\TcpTransport;
+use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
 use Monolog\Level;
 use Monolog\Logger;
 use Monolog\Handler\FingersCrossedHandler;
@@ -59,11 +60,11 @@ class Factory
 			$logHandlers = array();
 			if(!empty(self::$gelfHost))
 			{
-				$logHandlers[] = new FingersCrossedHandler(new GelfHandler(new Publisher(new TcpTransport(self::$gelfHost, self::$gelfPort))), null, 0, true, true, self::$logLevel);
+				$logHandlers[] = new FingersCrossedHandler(new GelfHandler(new Publisher(new TcpTransport(self::$gelfHost, self::$gelfPort))), new ErrorLevelActivationStrategy(self::$logLevel), 0, true, true, null);
 			}
 			if(!empty(self::$fileLogPath))
 			{
-				$logHandlers[] = new FingersCrossedHandler(new StreamHandler(sprintf(self::$fileLogPath, mb_strtolower($name), date("Y-m-d"))), null, 0, true, true, self::$logLevel);
+				$logHandlers[] = new FingersCrossedHandler(new StreamHandler(sprintf(self::$fileLogPath, mb_strtolower($name), date("Y-m-d"))), new ErrorLevelActivationStrategy(self::$logLevel), 0, true, true, null);
 			}
 
 			$logger = new LoggerService($name, $logHandlers);
