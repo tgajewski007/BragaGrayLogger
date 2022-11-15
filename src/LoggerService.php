@@ -195,11 +195,11 @@ class LoggerService extends Logger
 			}
 			elseif(is_object($value))
 			{
-				$context[$key] = mb_substr(json_encode($value, JSON_PRETTY_PRINT), 0, 32766);
+				$context[$key] = mb_substr(json_encode($value, JSON_PRETTY_PRINT) ?? "", 0, 32766);
 			}
 			else
 			{
-				$context[$key] = mb_substr($value, 0, 32766);
+				$context[$key] = mb_substr($value ?? "", 0, 32766);
 			}
 		}
 	}
