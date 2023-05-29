@@ -149,10 +149,10 @@ class LoggerService extends Logger
 	public function exception(\Throwable $exception, Level $logLevel = Level::Critical, array $context = array())
 	{
 		$context = array_merge([
-			self::CODE => Factory::$errorCodePrefix . ":" . $exception->getCode(),
-			self::TRACE => $exception->getTraceAsString(),
+			self::CODE      => Factory::$errorCodePrefix . ":" . $exception->getCode(),
+			self::TRACE     => $exception->getTraceAsString(),
 			self::CODE_LINE => $exception->getLine(),
-			self::FILE => $exception->getFile()], $context);
+			self::FILE      => $exception->getFile() ], $context);
 
 		$this->decorateContext($context);
 		self::log($logLevel, $exception->getMessage(), $context);
@@ -164,23 +164,23 @@ class LoggerService extends Logger
 	private function decorateContext(array &$context)
 	{
 		$context = array_merge([
-			self::LOG_ID => $this->getUniqRequestGuid()], $context);
+			self::LOG_ID => $this->getUniqRequestGuid() ], $context);
 		$context = array_merge([
-			self::IP => $this->getRemoteIp()], $context);
+			self::IP => $this->getRemoteIp() ], $context);
 		if(!empty(Factory::$uniqUserId))
 		{
 			$context = array_merge([
-				self::USER_ID => Factory::$uniqUserId], $context);
+				self::USER_ID => strval(Factory::$uniqUserId) ], $context);
 		}
 		if(!empty(Factory::$userNameContex))
 		{
 			$context = array_merge([
-				self::LOGIN => Factory::$userNameContex], $context);
+				self::LOGIN => Factory::$userNameContex ], $context);
 		}
 		if(!empty(Factory::$sessionId))
 		{
 			$context = array_merge([
-				self::SESSION_ID => Factory::$sessionId], $context);
+				self::SESSION_ID => Factory::$sessionId ], $context);
 		}
 		$this->cleanup($context);
 	}
