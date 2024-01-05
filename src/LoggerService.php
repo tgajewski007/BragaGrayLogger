@@ -163,45 +163,42 @@ class LoggerService extends Logger
 	 */
 	private function decorateContext(array &$context)
 	{
-		$context = array_merge([
-			self::LOG_ID => $this->getUniqRequestGuid() ], $context);
-		$context = array_merge([
-			self::IP => $this->getRemoteIp() ], $context);
+		$context = array_merge([ self::LOG_ID => strval($this->getUniqRequestGuid()) ], $context);
+		$context = array_merge([ self::IP => strval($this->getRemoteIp()) ], $context);
 		if(!empty(Factory::$uniqUserId))
 		{
-			$context = array_merge([
-				self::USER_ID => strval(Factory::$uniqUserId) ], $context);
+			$context = array_merge([ self::USER_ID => strval(Factory::$uniqUserId) ], $context);
 		}
 		if(!empty(Factory::$userNameContex))
 		{
-			$context = array_merge([
-				self::LOGIN => Factory::$userNameContex ], $context);
+			$context = array_merge([ self::LOGIN => strval(Factory::$userNameContex) ], $context);
 		}
 		if(!empty(Factory::$sessionId))
 		{
-			$context = array_merge([
-				self::SESSION_ID => Factory::$sessionId ], $context);
+			$context = array_merge([ self::SESSION_ID => strval(Factory::$sessionId) ], $context);
 		}
-		$this->cleanup($context);
+		return $this->cleanup($context);
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	private function cleanup($context)
 	{
+		$retval = [];
 		foreach($context as $key => $value)
 		{
 			if(is_array($value))
 			{
-				$this->cleanup($value);
+				$retval[strval($key)] = mb_substr(json_encode($value, JSON_PRETTY_PRINT) ?? "", 0, 32766);
 			}
 			elseif(is_object($value))
 			{
-				$context[$key] = mb_substr(json_encode($value, JSON_PRETTY_PRINT) ?? "", 0, 32766);
+				$retval[strval($key)] = mb_substr(json_encode($value, JSON_PRETTY_PRINT) ?? "", 0, 32766);
 			}
 			else
 			{
-				$context[$key] = mb_substr($value ?? "", 0, 32766);
+				$retval[strval($key)] = mb_substr($value ?? "", 0, 32766);
 			}
 		}
+		return $retval;
 	}
 	// -----------------------------------------------------------------------------------------------------------------
 	protected function getUniqRequestGuid()
