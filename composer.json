@@ -10,7 +10,7 @@
     ]
   },
   "require": {
-    "graylog2/gelf-php": "~1.7",
+    "graylog2/gelf-php": "~2.0",
     "monolog/monolog": "~3.2",
     "php": ">=8.1",
     "ext-mbstring": "*"
