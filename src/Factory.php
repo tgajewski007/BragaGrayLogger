@@ -11,8 +11,8 @@ use Monolog\Handler\StreamHandler;
 class Factory
 {
 	// -----------------------------------------------------------------------------------------------------------------
-	public static string $errorCodePrefix = "BRG";
-	private static int $gelfPort = 12201;
+	public static string $errorCodePrefix = "BG";
+	private static ?int $gelfPort = null;
 	private static ?string $gelfHost = null;
 	private static Level $logLevel = Level::Notice;
 	private static ?string $fileLogPath;
@@ -58,13 +58,25 @@ class Factory
 		if(!array_key_exists($name, self::$instances))
 		{
 			$logHandlers = array();
+			$activationStrategy = new ErrorLevelActivationStrategy(self::$logLevel);
 			if(!empty(self::$gelfHost))
 			{
-				$logHandlers[] = new FingersCrossedHandler(new GelfHandler(new Publisher(new TcpTransport(self::$gelfHost, self::$gelfPort))), new ErrorLevelActivationStrategy(self::$logLevel), 0, true, true, null);
+				if(empty(self::$gelfPort))
+				{
+					$tcpTransport = new TcpTransport(self::$gelfHost);
+				}
+				else
+				{
+					$tcpTransport = new TcpTransport(self::$gelfHost, self::$gelfPort);
+				}
+				$publisher = new Publisher($tcpTransport);
+				$handler = new GelfHandler($publisher);
+				$logHandlers[] = new FingersCrossedHandler($handler, $activationStrategy);
 			}
 			if(!empty(self::$fileLogPath))
 			{
-				$logHandlers[] = new FingersCrossedHandler(new StreamHandler(sprintf(self::$fileLogPath, mb_strtolower($name), date("Y-m-d"))), new ErrorLevelActivationStrategy(self::$logLevel), 0, true, true, null);
+				$handler = new StreamHandler(sprintf(self::$fileLogPath, mb_strtolower($name), date("Y-m-d")));
+				$logHandlers[] = new FingersCrossedHandler($handler, $activationStrategy);
 			}
 
 			$logger = new LoggerService($name, $logHandlers);

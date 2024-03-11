@@ -13,7 +13,7 @@ class GrayLoggerConfig
 	protected $logLevel;
 	protected $fileLogPath;
 	// -----------------------------------------------------------------------------------------------------------------
-	function __construct($errorCodePrefix, $gelfHost, $gelfPort = TcpTransport::DEFAULT_PORT, $logLevel = Level::Notice, $fileLogPath = null)
+	function __construct($errorCodePrefix, $gelfHost, $gelfPort = null, $logLevel = Level::Notice, $fileLogPath = null)
 	{
 		$this->errorCodePrefix = $errorCodePrefix;
 		$this->gelfHost = $gelfHost;
